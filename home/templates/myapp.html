@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Countdown Timer</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 30px;
+        }
+
+        #timer {
+            background: white;
+            width: 420px;
+            margin: 30px auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        #event {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .countdown-box {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .time-box {
+            background: #222;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            width: 80px;
+        }
+
+        .time-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .time-label {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Event Countdown Timer</h1>
+
+<div id="timer">
+    <div id="event">{{ data.name }}</div>
+
+    <div class="countdown-box">
+        <div class="time-box">
+            <div class="time-value" id="days">00</div>
+            <div class="time-label">DAYS</div>
+        </div>
+
+        <div class="time-box">
+            <div class="time-value" id="hours">00</div>
+            <div class="time-label">HRS</div>
+        </div>
+
+        <div class="time-box">
+            <div class="time-value" id="minutes">00</div>
+            <div class="time-label">MINS</div>
+        </div>
+
+        <div class="time-box">
+            <div class="time-value" id="seconds">00</div>
+            <div class="time-label">SECS</div>
+        </div>
+    </div>
+</div>
+
+<script>
+let days = {{ data.days }};
+let hours = {{ data.hours }};
+let minutes = {{ data.minutes }};
+let seconds = {{ data.seconds }};
+
+function updateTimer() {
+
+    if (seconds > 0) {
+        seconds--;
+    } else {
+        seconds = 59;
+        if (minutes > 0) {
+            minutes--;
+        } else {
+            minutes = 59;
+            if (hours > 0) {
+                hours--;
+            } else {
+                hours = 23;
+                if (days > 0) {
+                    days--;
+                } else {
+                    document.getElementById("timer").innerHTML =
+                        "<h2>🎉 Event Started!</h2>";
+                    return;
+                }
+            }
+        }
+    }
+
+    document.getElementById("days").innerText = days;
+    document.getElementById("hours").innerText = String(hours).padStart(2,'0');
+    document.getElementById("minutes").innerText = String(minutes).padStart(2,'0');
+    document.getElementById("seconds").innerText = String(seconds).padStart(2,'0');
+}
+
+updateTimer();
+setInterval(updateTimer, 1000);
+</script>
+
+</body>
+</html>
